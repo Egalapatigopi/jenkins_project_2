@@ -61,13 +61,25 @@ pipeline{
                }
             }
         }
-        stage('Artifact upload'){
-            environment{
-                    jfrogTool = tool 'jfrog'
-                }
-            steps{
-                withCredentials([usernameColonPassword(credentialsId: 'jfrog', variable: 'jfrog')]) {
-                sh '${jfogTool}/jfrog rt upload'
+        stage('Upload to Artifactory') {
+            steps {
+                script {
+                    // Use the Artifactory plugin to upload artifacts.
+                    def server = Artifactory.server 'jfrog'
+                    def buildInfo = Artifactory.newBuildInfo()
+
+                    // Define your artifacts to upload
+                    def filesToUpload = server.upload spec: '''{
+                        "files": [
+                            {
+                                "pattern": "/var/lib/jenkins/workspace/maven_sonar/target/*.war",
+                                "target": " libs-release-local/vprofile-v2.war"
+                            }
+                        ]
+                    }'''
+
+                    buildInfo.append(vprofile-v2.war)
+                    server.publishBuildInfo buildInfo
                 }
             }
         }
