@@ -61,6 +61,16 @@ pipeline{
                }
             }
         }
+        stage{
+            steps{
+                environment{
+                    jfrogTool = tool 'jfrog'
+                }
+                withCredentials([usernameColonPassword(credentialsId: 'jfrog', variable: 'jfrog')]) {
+                sh '${jfogTool}/jfrog rt upload'
+                }
+            }
+        }
     }
 }
             
