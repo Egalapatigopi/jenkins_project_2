@@ -61,11 +61,11 @@ pipeline{
                }
             }
         }
-        stage{
-            steps{
-                environment{
+        stage('Artifact upload'){
+            environment{
                     jfrogTool = tool 'jfrog'
                 }
+            steps{
                 withCredentials([usernameColonPassword(credentialsId: 'jfrog', variable: 'jfrog')]) {
                 sh '${jfogTool}/jfrog rt upload'
                 }
