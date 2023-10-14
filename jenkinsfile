@@ -1,0 +1,39 @@
+pipeline{
+    agent any
+    stages{
+        stage('Checkout'){
+            steps{
+                checkout scmGit(branches: [[name: '*/main']], 
+                extensions: [],
+                userRemoteConfigs: [[url: 'https://github.com/Egalapatigopi/jenkins_project_2.git']])
+            }
+        }
+        stage('Build'){
+            steps{
+                sh 'mvn clean install -DskipTests'
+            }
+            post {
+               success {
+                 // Archive the build artifacts (e.g., JAR files, WAR files, etc.)
+                archiveArtifacts '**/target/*.war'
+               }
+            }
+        }
+        stage('Unit test'){
+            steps{
+                sh 'mvn test'
+            }
+        }
+        stage('Code analysis with checkstyle'){
+            steps{
+                sh 'mvn checkstyle:checkstyle'
+            }
+            post{
+                success{
+                    echo 'Genareted test result'
+                }
+            }
+        }
+    }
+}
+            
