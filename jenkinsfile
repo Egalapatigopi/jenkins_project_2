@@ -2,6 +2,9 @@ pipeline{
     agent any
     tools{
         maven 'maven3'
+    environment{
+        IMAGE_TAG = "${BUILD_NUMBER}"
+    }
     }
     stages{
         stage('Checkout'){
@@ -61,28 +64,15 @@ pipeline{
                }
             }
         }
-        stage('Upload to Artifactory') {
-            steps {
-                script {
-                    // Use the Artifactory plugin to upload artifacts.
-                    def server = Artifactory.server 'jfrog'
-                    def buildInfo = Artifactory.newBuildInfo()
-
-                    // Define your artifacts to upload
-                    def filesToUpload = server.upload spec: '''{
-                        "files": [
-                            {
-                                "pattern": "/var/lib/jenkins/workspace/maven_sonar/target/*.war",
-                                "target": " libs-release-local/vprofile-v2.war"
-                            }
-                        ]
-                    }'''
-
-                    buildInfo.append(vprofile-v2.war)
-                    server.publishBuildInfo buildInfo
-                }
+        stage('Docker Image Build'){
+            withCredentials([string(credentialsId: 'dockerhub_pwd', variable: 'docker_login')]) {
+                 sh '''docker login -u gopi1998 -p ${docker_login}
+                 docker biuld -t gopi1998/vprofileapp:${BUILD_NUMBER} .
+                 docker push gopi1998/vprofileapp:${BUILD_NUMBER}
+                 '''
             }
         }
+
     }
 }
             
