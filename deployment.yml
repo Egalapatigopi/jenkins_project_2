@@ -1,5 +1,5 @@
-apiVersion: v2
-kind: deployment
+apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: vprofileapp
   labels:
