@@ -65,11 +65,13 @@ pipeline{
             }
         }
         stage('Docker Image Build'){
-            withCredentials([string(credentialsId: 'dockerhub_pwd', variable: 'docker_login')]) {
+            steps{
+                withCredentials([string(credentialsId: 'dockerhub_pwd', variable: 'docker_login')]) {
                  sh '''docker login -u gopi1998 -p ${docker_login}
                  docker biuld -t gopi1998/vprofileapp:${BUILD_NUMBER} .
                  docker push gopi1998/vprofileapp:${BUILD_NUMBER}
                  '''
+                }
             }
         }
 
