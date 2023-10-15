@@ -6,16 +6,16 @@ metadata:
     app: vprofile
 spec:
   replicas: 2
-  selecore:
+  selector:
     matchLabels:
       app: vprofile
   template:
     metadata:
       labels:
         app: vprofile
-  spec:
-    containers:
-    - name: vprofile_app
-      image: gopi1998/vprofileapp:${BUILD_NUMBER}
-      ports:
-      - containerPort: 80
+    spec:
+      containers:
+      - name: vprofileapp
+        image: gopi1998/vprofileapp:${BUILD_NUMBER}
+        ports:
+        - containerPort: 80
