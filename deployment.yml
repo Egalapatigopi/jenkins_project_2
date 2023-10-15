@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: vprofileapp
-        image: gopi1998/vprofileapp:51
+        image: gopi1998/vprofileapp:replaceImageTag
         ports:
         - containerPort: 80
