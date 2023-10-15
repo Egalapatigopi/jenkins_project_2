@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: deployment
+metadata:
+  name: vprofileapp
+  labels:
+    app: vprofile
+spec:
+  replicas: 2
+  selecore:
+    matchLabels:
+      app: vprofile
+  template:
+    metadata:
+      labels:
+        app: vprofile
+  spec:
+    containers:
+    - name: vprofile_app
+      image: gopi1998/vprofileapp:${BUILD_NUMBER}
+      ports:
+      - containerPort: 80
