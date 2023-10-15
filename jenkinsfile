@@ -74,20 +74,7 @@ pipeline{
                 }
             }
         }
-        stage('fetching code to minikube server') {
-            agent{
-                label 'minikube'
-            }
-            steps{
-                checkout scmGit(branches: [[name: '*/minikube_app']],
-                extensions: [], 
-                userRemoteConfigs: [[url: 'https://github.com/Egalapatigopi/jenkins_project_2.git']])
-            }
-        }
         stage('deployment'){
-            agent{
-                label 'minikube'
-            }
             steps{
                 withCredentials([string(credentialsId: 'dockerhub_pwd', variable: 'docker_login')]) {
                     sh '''
