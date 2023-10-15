@@ -75,10 +75,6 @@ pipeline{
             }
         }
         stage('Update Deployment File') {
-            environment {
-                GIT_REPO_NAME = "jenkins_project_2"
-                GIT_USER_NAME = "Egalapatigopi"
-            }
             steps {
                 withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
                 sh '''
@@ -86,18 +82,8 @@ pipeline{
                     git config user.name "Egalapati gopi"
                     BUILD_NUMBER=${BUILD_NUMBER}
                     sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" deployment.yml
-                    git add deployment.yml
-                    git commit -m "Update deployment image to version ${BUILD_NUMBER}"
-                    git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
-                '''
+                    '''
                 }
-            }
-        }
-        stage('Edited code to github'){
-            steps{
-                checkout scmGit(branches: [[name: '*/main']], 
-                extensions: [],
-                userRemoteConfigs: [[url: 'https://github.com/Egalapatigopi/jenkins_project_2.git']]) 
             }
         }
         stage('deployment'){
