@@ -76,7 +76,9 @@ pipeline{
         }
         stage('deployment to minikube'){
             agent{
-                label 'minikube'
+                node{
+                    label 'minikube'
+                }
             }
             steps{
                 checkout scmGit(branches: [[name: '*/minikube_app']],
