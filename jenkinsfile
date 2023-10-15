@@ -74,7 +74,25 @@ pipeline{
                 }
             }
         }
-
+        stage('deployment to minikube'){
+            agent{
+                node 'minikube'
+            }
+            steps{
+                checkout scmGit(branches: [[name: '*/minikube_app']],
+                extensions: [], 
+                userRemoteConfigs: [[url: 'https://github.com/Egalapatigopi/jenkins_project_2.git']])
+            }
+            steps{
+                withCredentials([string(credentialsId: 'dockerhub_pwd', variable: 'docker_login')]) {
+                    sh '''
+                    docker login -u gopi1998 -p ${docker_login}
+                    docker pull gopi1998/vprofileapp:${BUILD_NUMBER}
+                    kubectl apply -f ./deployment.yml
+                    kubectl apply -f ./service.yml
+                }
+            }
+        }
     }
 }
             
