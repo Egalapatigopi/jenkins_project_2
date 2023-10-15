@@ -74,13 +74,13 @@ pipeline{
                 }
             }
         }
-            stage('Update Deployment File') {
-        environment {
-            GIT_REPO_NAME = "jenkins_project_2"
-            GIT_USER_NAME = "Egalapatigopi"
-        }
-        steps {
-            withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
+        stage('Update Deployment File') {
+            environment {
+                GIT_REPO_NAME = "jenkins_project_2"
+                GIT_USER_NAME = "Egalapatigopi"
+            }
+            steps {
+                withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
                 sh '''
                     git config user.email "gopi.xyz@gmail.com"
                     git config user.name Egalapati gopi"
