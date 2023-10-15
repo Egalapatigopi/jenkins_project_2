@@ -2,9 +2,9 @@ pipeline{
     agent any
     tools{
         maven 'maven3'
+    }
     environment{
         IMAGE_TAG = "${BUILD_NUMBER}"
-    }
     }
     stages{
         stage('Checkout'){
