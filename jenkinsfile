@@ -93,7 +93,7 @@ pipeline{
                 }
             }
         }
-        stage{
+        stage('Edited code to github'){
             steps{
                 checkout scmGit(branches: [[name: '*/main']], 
                 extensions: [],
